@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Clientes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 900px;
+            margin: 20px auto;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .new-client {
+            display: inline-block;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background: #28a745;
+            color: #fff;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+        .new-client:hover {
+            background: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background: #007BFF;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        a.action {
+            color: #007BFF;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        a.action:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Clientes</h1>
+    <a class="new-client" th:href="@{/clientes/novo}">Novo Cliente</a>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Email</th>
+            <th>Data de Nascimento</th>
+            <th>Gênero</th>
+            <th>Telefone</th>
+            <th>Data Cadastro</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cliente : ${clientes}">
+            <td th:text="${cliente.id}">ID</td>
+            <td th:text="${cliente.nome}">Nome</td>
+            <td th:text="${cliente.cpf}">CPF</td>
+            <td th:text="${cliente.email}">Email</td>
+            <td th:text="${#dates.format(cliente.dtNascimento, 'dd/MM/yyyy')}">Data de Nascimento</td>
+            <td th:text="${cliente.genero}">Gênero</td>
+            <td th:text="${cliente.telefone}">Telefone</td>
+            <td th:text="${cliente.dtCadastro != null ? #dates.format(cliente.dtCadastro, 'dd/MM/yyyy') : ''}">Data Cadastro</td>
+            <td>
+                <a class="action" th:href="@{'/clientes/editar/' + ${cliente.id}}">Editar</a>
+                <a class="action" th:href="@{'/clientes/deletar/' + ${cliente.id}}"
+                   onclick="return confirm('Deseja realmente deletar?');">Deletar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
